@@ -368,6 +368,7 @@ function handleQuarterlyPeriodChange () {
     selectedPeriod = selectedYear.toString() + selectedQuarter;
     selectedStartDate = moment(selectedYear, 'YYYY').add((parseInt(quarterNum[1]) - 1)*3, 'months').toDate();
     selectedEndDate = moment(selectedStartDate).add(3, 'months').subtract(1, 'days').toDate();
+    
 }
 
 function handleYearlyPeriodChange(month, selectedYear) {
@@ -524,6 +525,7 @@ function getReportData(locationUid) {
             return;
         }
     }
+    
    }
     // fetch report data
     return jQuery.get(OMRS_WEBSERVICES_BASE_URL + "/ws/rest/v1/reportingrest/reportdata/" + reportGUID + "?startDate=" + moment(startDate).format('YYYY-MM-DD') + "&endDate=" + moment(endDate).format('YYYY-MM-DD') + "&location=" + locationGUID + "&v=custom:(dataSets)", function (data) {
@@ -705,22 +707,9 @@ function sendDataToDHIS() {
         selectedLocations.push(availableLocations[this.id])
     })
     
-    if(selectedMapping.periodType === 'Daily'){
+    if(selectedMapping.periodType === 'Monthly'){
 	
-		let locationsToSendNames = '';
-		
-		for (let i = 0; i < selectedLocations.length ; i++) {
-			locationsToSend.push(selectedLocations[i]);
-			locationsToSendNames = locationsToSendNames+ ' '+selectedLocations[i].location.name +'\n';
-		}
-		
-	if(locationsToSend.length > 0){
-		alert('O relatório será enviado para a(s) localização(ões) : '+locationsToSendNames+' \n .');
-	}
-	
-	}else{
-
-	let locationsToNotSend = '';
+		let locationsToNotSend = '';
 	for (let i = 0; i < selectedLocations.length ; i++) {
 		jQuery.ajax({
 			url: OMRS_WEBSERVICES_BASE_URL + "/ws/rest/v1/dhisconnector/dhismonthcheck?dhisreportdataset="+selectedMapping.dataSetUID+"&periodtype="+selectedMapping.periodType+"&reportperiod="+selectedPeriod.toString()+"&organicunit="+ selectedLocations[i].orgUnitUid,
@@ -745,6 +734,20 @@ function sendDataToDHIS() {
 	if(locationsToNotSend.length > 0){
 		alert('O relatório não será enviado para a(s) localização(ões) : '+locationsToNotSend+' \n porque o mês selecionado não está aberto para envio dos dados.');
 	}
+	}else{
+		
+		let locationsToSendNames = '';
+		
+		for (let i = 0; i < selectedLocations.length ; i++) {
+			locationsToSend.push(selectedLocations[i]);
+			locationsToSendNames = locationsToSendNames+ ' '+selectedLocations[i].location.name +'\n';
+		}
+		
+	if(locationsToSend.length > 0){
+		alert('O relatório será enviado para a(s) localização(ões) : '+locationsToSendNames+' \n .');
+	}
+
+
 	}
 		
 	if(locationsToSend.length > 0){
@@ -769,8 +772,6 @@ function sendDataToDHIS() {
 	                    dataType: "json",
 	                    success: function (data) {
 		
-							console.log(data);
-							
 							for (const [key, value] of Object.entries(data)) {
 							  	let response = value;
 								let responseDescription = response.description;
