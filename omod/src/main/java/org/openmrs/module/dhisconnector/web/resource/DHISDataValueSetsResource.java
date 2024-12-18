@@ -59,17 +59,9 @@ public class DHISDataValueSetsResource extends DataDelegatingCrudResource implem
 
 	@Override
 	public Object save(Object o) {
-		//Object summary = Context.getService(DHISConnectorService.class).postDataValueSet((DHISDataValueSet) o);
 		List<Object> summary = Context.getService(DHISConnectorService.class).postDataValueSetToMultiPleDhisServers((DHISDataValueSet) o);
 
 		ObjectMapper mapper = new ObjectMapper();
-//		SimpleObject ret = null;
-//
-//		try {
-//			ret = SimpleObject.parseJson(mapper.writeValueAsString(summary));
-//		} catch (Exception e) {
-//			return null;
-//		}
 		
 		SimpleObject reportSendResponse = null;
 		
