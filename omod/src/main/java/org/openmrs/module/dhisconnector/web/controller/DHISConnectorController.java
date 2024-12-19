@@ -745,6 +745,8 @@ public class DHISConnectorController {
 
 			DHISServerConfiguration server = Context.getService(DHISConnectorService.class)
 					.getDHISServerByUuid(locationToOrgUnitMapping.getServerUuid());
+			
+			if(server != null) {
 
 			DHISLocationToOrgUnitMapping dhisLocationToOrgUnitMapping = new DHISLocationToOrgUnitMapping();
 
@@ -759,6 +761,8 @@ public class DHISConnectorController {
 				}
 			}
 			dhisLocationToOrgUnitMappings.add(dhisLocationToOrgUnitMapping);
+			
+			}
 		}
 		model.addAttribute("locations", Context.getLocationService().getAllLocations(true));
 		model.addAttribute("servers", Context.getService(DHISConnectorService.class).getDHISServerConfigurations());
