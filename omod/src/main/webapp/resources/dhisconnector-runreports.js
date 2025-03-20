@@ -169,7 +169,7 @@ function initializeMonthlyPicker() {
 
 function initializeSixMonthlyPicker() {
     const currentYear = moment().year();
-    const currentMonth = moment().month();
+    const currentMonth = moment().month() + 1;
     const sixMonthly = jQuery('#sixMonthlyPicker');
     const sixMonthTypeSelector = jQuery('#sixMonthTypeSelector');
     // Set back to the maximum possible year if the user entered a wrong value
@@ -189,7 +189,7 @@ function initializeSixMonthlyPicker() {
 
 function initializeSixMonthlyAprilPicker() {
     const currentYear = moment().year();
-    const currentMonth = moment().month();
+    const currentMonth = moment().month() + 1;
     const sixMonthlyApril = jQuery('#sixMonthlyAprilPicker');
     const sixMonthAprilTypeSelector = jQuery('#sixMonthAprilTypeSelector');
 
@@ -211,7 +211,7 @@ function initializeSixMonthlyAprilPicker() {
 // Make the year picker and quarter selector appear on the display
 function initializeQuarterlyPicker () {
     const currentYear = moment().year();
-    const currentMonth = moment().month();
+    const currentMonth = moment().month() + 1;
     const quarterlyYearPicker = jQuery("#quarterlyPicker");
     const quarterSelector = jQuery("#quarterSelection");
 
@@ -230,7 +230,7 @@ function initializeQuarterlyPicker () {
 
 function initializeYearlyPicker(month) {
     const currentYear = moment().year();
-    const currentMonth = moment().month();
+    const currentMonth = moment().month() + 1;
     const yearlyPicker = jQuery('#yearlyPicker');
     // Set back to the maximum possible year if the user entered a wrong value
     if (currentMonth >= moment().month(month).format("M")) {
@@ -267,7 +267,7 @@ function handleSixMonthlyPeriodChange() {
     const sixMonthlyPicker = jQuery('#sixMonthlyPicker');
     let selectedYear = sixMonthlyPicker.val();
     const currentYear = moment().year();
-    const currentMonth = moment().month();
+    const currentMonth = moment().month() + 1;
     const sixMonthTypeSelector = jQuery('#sixMonthTypeSelector');
     const selectedSixMonthPeriod = sixMonthTypeSelector.val();
     // Set back to the maximum possible year if the user entered a wrong value
@@ -299,7 +299,7 @@ function handleSixMonthlyPeriodChange() {
 
 function handleSixMonthlyAprilPeriodChange() {
     const currentYear = moment().year();
-    const currentMonth = moment().month();
+    const currentMonth = moment().month() + 1;
     const sixMonthlyAprilPicker = jQuery('#sixMonthlyAprilPicker');
     let selectedYear = sixMonthlyAprilPicker.val();
     const sixMonthAprilTypeSelector = jQuery('#sixMonthAprilTypeSelector');
@@ -333,7 +333,7 @@ function handleSixMonthlyAprilPeriodChange() {
 
 function handleQuarterlyPeriodChange () {
     const currentYear = moment().year();
-    const currentMonth = moment().month();
+    const currentMonth = moment().month() + 1;
     const quarterlyYearPicker = jQuery("#quarterlyPicker");
     let selectedYear = quarterlyYearPicker.val();
     const quarterSelector = jQuery("#quarterSelection");
@@ -373,7 +373,7 @@ function handleQuarterlyPeriodChange () {
 function handleYearlyPeriodChange(month, selectedYear) {
     const yearlyPicker = jQuery('#yearlyPicker');
     const currentYear = moment().year();
-    const currentMonth = moment().month();
+    const currentMonth = moment().month() + 1;
     // Set back to the maximum possible year if the user entered a wrong value
     if (selectedYear >= currentYear) {
         if (currentMonth >= moment().month(month).format("M")) {
