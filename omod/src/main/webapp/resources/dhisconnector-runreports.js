@@ -329,7 +329,7 @@ function handleSixMonthlyAprilPeriodChange() {
             sixMonthAprilTypeSelector.children('option[value="Apr"]').show();
         }
     } else {
-        sixMonthTypeSelector.children('option[value="Apr]').show();
+        sixMonthAprilTypeSelector.children('option[value="Apr"]').show();
     }
 
     if (selectedSixMonthAprilPeriod === 'Apr') {
