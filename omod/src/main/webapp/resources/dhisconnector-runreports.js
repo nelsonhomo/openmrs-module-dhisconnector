@@ -333,11 +333,11 @@ function handleSixMonthlyAprilPeriodChange() {
     }
 
     if (selectedSixMonthAprilPeriod === 'Apr') {
-        selectedPeriod = selectedYear + "S1";
+        selectedPeriod = selectedYear + "AprilS1";
         selectedStartDate = moment(selectedYear, 'YYYY').add(4, 'months').toDate();
         selectedEndDate = moment(selectedStartDate).add(6, 'months').subtract(1, 'days').toDate();
     } else {
-        selectedPeriod = selectedYear + "S2";
+        selectedPeriod = selectedYear + "AprilS2";
         selectedStartDate = moment(selectedYear, 'YYYY').add(10, 'months').toDate();
         selectedEndDate = moment(selectedStartDate).add(6, 'months').subtract(1, 'days').toDate();
     }
