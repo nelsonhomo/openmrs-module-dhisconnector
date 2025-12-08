@@ -59,17 +59,35 @@ function populateReportsDropdown() {
     });
 }
 
+function hidePeriodPickers() {
 
+    // Destroy jQuery UI datepickers if they exist
+    $j('#dailyPicker').datepicker('destroy').val('');
+    $j('#weeklyPicker').datepicker('destroy').val('');
+    $j('#openmrs-start-date').datepicker('destroy').val('');
+    $j('#openmrs-end-date').datepicker('destroy').val('');
 
-function hidePeriodPickers(){
-    jQuery('#dailyPicker').hide();
-    jQuery('#weeklyPicker').hide();
-    jQuery('#monthlyPicker').hide();
-    jQuery('#sixMonthlyPicker').hide();
-    jQuery('#sixMonthTypeSelector').hide();
-    jQuery('#yearlyPicker').hide();
-    jQuery('#customPeriodPicker').hide();
+    // Clear HTML5 pickers
+    $j('#monthlyPicker').val('');
+    $j('#sixMonthlyPicker').val('');
+    $j('#sixMonthlyAprilPicker').val('');
+    $j('#quarterlyPicker').val('');
+    $j('#yearlyPicker').val('');
+
+    // Hide everything
+    $j('#dailyPicker').hide();
+    $j('#weeklyPicker').hide();
+    $j('#monthlyPicker').hide();
+    $j('#sixMonthlyPicker').hide();
+    $j('#sixMonthTypeSelector').hide();
+    $j('#sixMonthlyAprilPicker').hide();
+    $j('#sixMonthAprilTypeSelector').hide();
+    $j('#quarterlyPicker').hide();
+    $j('#quarterSelection').hide();
+    $j('#yearlyPicker').hide();
+    $j('#customPeriodPicker').hide();
 }
+
 
 function formatDate(date) {
   const day = String(date.getDate()).padStart(2, '0');
@@ -204,16 +222,11 @@ function initializeSixMonthlyAprilPicker() {
     const currentMonth = moment().month() + 1;
     const sixMonthlyApril = jQuery('#sixMonthlyAprilPicker');
     const sixMonthAprilTypeSelector = jQuery('#sixMonthAprilTypeSelector');
+    
+    // Always put the max year as the current year
+	sixMonthlyApril.attr("max", currentYear);
+	sixMonthlyApril.val(currentYear);
 
-    if (currentMonth >= 9 || currentMonth < 4) {
-        sixMonthlyApril.attr("max", currentYear);
-        sixMonthAprilTypeSelector.children('option[value="Apr"]').hide();
-        sixMonthlyApril.val(currentYear);
-    } else {
-        sixMonthlyApril.attr("max", currentYear - 1);
-        sixMonthAprilTypeSelector.children('option[value="Apr"]').show();
-        sixMonthlyApril.val(currentYear - 1);
-    }
     sixMonthAprilTypeSelector.show();
     sixMonthlyApril.show();
     handleSixMonthlyAprilPeriodChange();
@@ -316,29 +329,17 @@ function handleSixMonthlyAprilPeriodChange() {
     let selectedYear = sixMonthlyAprilPicker.val();
     const sixMonthAprilTypeSelector = jQuery('#sixMonthAprilTypeSelector');
     const selectedSixMonthAprilPeriod = sixMonthAprilTypeSelector.val();
-    // Set back to the maximum possible year if the user entered a wrong value
-    if (selectedYear > currentYear) {
-        sixMonthlyAprilPicker.val(currentYear - 1);
-        selectedYear = currentYear - 1;
-    } else if(selectedYear === currentYear) {
-        if (currentMonth >= 9 || currentMonth < 4) {
-            sixMonthAprilTypeSelector.children('option[value="Apr"]').hide();
-        } else {
-            sixMonthlyAprilPicker.val(currentYear - 1);
-            selectedYear = currentYear - 1;
-            sixMonthAprilTypeSelector.children('option[value="Apr"]').show();
-        }
-    } else {
-        sixMonthAprilTypeSelector.children('option[value="Apr"]').show();
-    }
 
     if (selectedSixMonthAprilPeriod === 'Apr') {
         selectedPeriod = selectedYear + "AprilS1";
-        selectedStartDate = moment(selectedYear, 'YYYY').add(4, 'months').toDate();
+        //selectedStartDate = moment(selectedYear, 'YYYY').add(4, 'months').toDate();
+        selectedStartDate = moment(selectedYear, 'YYYY').add(3, 'months').toDate();
         selectedEndDate = moment(selectedStartDate).add(6, 'months').subtract(1, 'days').toDate();
     } else {
-        selectedPeriod = selectedYear + "AprilS2";
-        selectedStartDate = moment(selectedYear, 'YYYY').add(10, 'months').toDate();
+		let previsousYear = selectedYear - 1;
+        selectedPeriod = previsousYear + "AprilS2";
+        //selectedStartDate = moment(selectedYear, 'YYYY').add(10, 'months').toDate();
+        selectedStartDate = moment(previsousYear, 'YYYY').add(9, 'months').toDate();
         selectedEndDate = moment(selectedStartDate).add(6, 'months').subtract(1, 'days').toDate();
     }
 }
@@ -538,7 +539,7 @@ function getReportData(locationUid) {
     }
    }
     // fetch report data
-    return jQuery.get(OMRS_WEBSERVICES_BASE_URL + "/ws/rest/v1/reportingrest/reportdata/" + reportGUID + "?startDate=" + moment(startDate).format('YYYY-MM-DD') + "&endDate=" + moment(endDate).format('YYYY-MM-DD') + "&location=" + locationGUID + "&v=custom:(dataSets)", function (data) {
+    return jQuery.get(OMRS_WEBSERVICES_BASE_URL + "/ws/rest/v1/reportingrest/reportdata/" + reportGUID + "?startDate=" + moment(startDate).format('YYYY-MM-DD') + "&endDate=" + moment(endDate).format('YYYY-MM-DD') + "&endRevisionDate=" + moment(endDate).format('YYYY-MM-DD') + "&location=" + locationGUID + "&v=custom:(dataSets)", function (data) {
         console.log('Relatorio executado');
         reportData = data;
     });
