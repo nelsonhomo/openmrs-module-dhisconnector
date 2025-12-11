@@ -70,8 +70,8 @@
         </select>
         <input type="number" id="sixMonthlyAprilPicker" min="1970" onchange="handleSixMonthlyAprilPeriodChange()" style="display: none"/>
         <select id="sixMonthAprilTypeSelector" onchange="handleSixMonthlyAprilPeriodChange()" style="display: none">
-          <option value="Apr">Apr - Sep</option>
           <option value="Oct">Oct - Mar</option>
+          <option value="Apr">Apr - Sep</option>
         </select>
         <%--    Quarterly period type year input --%>
         <input type="number" id="quarterlyPicker" min="1970" onchange="handleQuarterlyPeriodChange()" style="display: none"/>
