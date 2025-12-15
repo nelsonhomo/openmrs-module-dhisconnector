@@ -734,7 +734,6 @@ public class DHISConnectorController {
 
 	@RequestMapping(value = "/module/dhisconnector/locationMapping.form", method = RequestMethod.GET)
 	public void showLocationMappings(ModelMap model) {
-		List<DHISOrganisationUnit> orgUnits = Context.getService(DHISConnectorService.class).getDHISOrgUnits();
 
 		List<LocationToOrgUnitMapping> locationToOrgUnitMappings = Context.getService(DHISConnectorService.class)
 				.getAllLocationToOrgUnitMappings();
@@ -753,20 +752,15 @@ public class DHISConnectorController {
 			dhisLocationToOrgUnitMapping.setLocation(locationToOrgUnitMapping.getLocation());
 			dhisLocationToOrgUnitMapping.setServerUrl(server.getUrl());
 			dhisLocationToOrgUnitMapping.setServerUuid(server.getUuid());
-
-			for (DHISOrganisationUnit orgUnit : orgUnits) {
-				if (orgUnit.getId().equals(locationToOrgUnitMapping.getOrgUnitUid())) {
-					dhisLocationToOrgUnitMapping.setOrgUnitName(orgUnit.getName());
-					dhisLocationToOrgUnitMapping.setOrgUnitUid(orgUnit.getId());
-				}
-			}
+			dhisLocationToOrgUnitMapping.setOrgUnitName(locationToOrgUnitMapping.getOrgUnitName());
+			dhisLocationToOrgUnitMapping.setOrgUnitUid(locationToOrgUnitMapping.getOrgUnitUid());
+			
 			dhisLocationToOrgUnitMappings.add(dhisLocationToOrgUnitMapping);
 			
 			}
 		}
 		model.addAttribute("locations", Context.getLocationService().getAllLocations(true));
 		model.addAttribute("servers", Context.getService(DHISConnectorService.class).getDHISServerConfigurations());
-		model.addAttribute("orgUnits", orgUnits);
 		model.addAttribute("locationToOrgUnitMappings", locationToOrgUnitMappings);
 		model.addAttribute("dhisLocationToOrgUnitMappings", dhisLocationToOrgUnitMappings);
 		model.addAttribute("showLogin", (Context.getAuthenticatedUser() == null) ? true : false);
